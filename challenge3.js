@@ -1,14 +1,19 @@
-function calculateNetsalay(){
-    let basicSalary = parseFloat(document.getElementById("basic-salary").value);
-    let benefits = parseFloat(document.getElementById("benefits").value);
+function calculateNetSalary(basicSalary, benefits) {
+    const grossSalary = basicSalary + benefits;
+    const paye = calculatePAYE(grossSalary);
+    const nhif = calculateNHIF(grossSalary);
+    const { employee: nssfEmployee, employer: nssfEmployer } = calculateNSSF(grossSalary);
 
-    let payee = Math.floor((basicSalary + benefits)* 0.25);
-    let NHIFDeductions = Math.floor(basicSalary *0.02);
-    let NSSFDeductions = Marth.floor(basicSalary * 0.12);
-    let grossSalary = Math.floor(basicSalary + benefits);
+    const deductionsTotal = paye + nhif + nssfEmployee;
+    const netSalary = grossSalary - deductionsTotal;
 
-    let netSalary = grossSalary - payee - NHIFDeductions - NSSFDeductions;
-
-    let resultElement = document.getElementById("result");
-    resultElement.innerHTML=''
+    return {
+        grossSalary: grossSalary,
+        paye: paye,
+        nhif: nhif,
+        nssfEmployee: nssfEmployee,
+        nssfEmployer: nssfEmployer,
+        deductionsTotal: deductionsTotal,
+        netSalary: netSalary
+    };
 }
